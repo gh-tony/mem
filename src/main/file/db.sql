@@ -7,7 +7,7 @@ create table t_tk_task(
   create_id varchar,
   modify_time time,
   modify_id varchar,
-  is_del varchar,
+  is_del char(1),
   audit_no varchar,
   audit_time time,
   audit_opinion varchar

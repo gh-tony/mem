@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.sabs.mem.mapper.TaskMapper">
+    <resultMap id="taskMap" type="cn.com.sabs.mem.model.Task">
+        <result column="task_id" property="taskId" jdbcType="VARCHAR"></result>
+        <result column="task_name" property="taskName" jdbcType="VARCHAR"></result>
+        <result column="statu" property="statu" jdbcType="VARCHAR"></result>
+        <result column="description" property="description" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="Date"></result>
+        <result column="create_id" property="createId" jdbcType="VARCHAR"></result>
+        <result column="modify_time" property="modifyTime" jdbcType="Date"></result>
+        <result column="modify_id" property="modifyId" jdbcType="VARCHAR"></result>
+        <result column="is_del" property="isDel" jdbcType="CHAR"></result>
+        <result column="audit_no" property="auditNo" jdbcType="VARCHAR"></result>
+        <result column="audit_time" property="auditTime" jdbcType="Date"></result>
+        <result column="audit_opinion" property="auditOpinion" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <select id="queryTaskByCondition" resultMap="taskMap" parameterType="String">
+        select * from mem.t_tk_task where task_name = #{taskName}
+    </select>
+</mapper>

@@ -18,7 +18,7 @@ public class Task {
     //任务描述
     private String description;
     //创建时间
-    private String createTime;
+    private Date createTime;
     //创建人
     private String createId;
     //最后一次修改时间
@@ -30,7 +30,7 @@ public class Task {
     //审核人
     private String auditNo;
     //审核时间
-    private String auditTime;
+    private Date auditTime;
     //审核意见
     private String auditOpinion;
 }

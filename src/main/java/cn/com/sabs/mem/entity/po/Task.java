@@ -1,4 +1,4 @@
-package cn.com.sabs.mem.model;
+package cn.com.sabs.mem.entity.po;
 
 import lombok.Data;
 

@@ -1,14 +1,18 @@
-package cn.com.sabs.mem.model;
+package cn.com.sabs.mem.entity.dto;
 
 import lombok.Data;
 
 import java.util.Date;
 
 /**
- * 会员
+ * @ClassName
+ * @Description TODO
+ * @Author Tony
+ * @Date 2020/12/16 17:07
+ * Version 1.0
  */
 @Data
-public class Member {
+public class MemberResponseDto {
     //id
     private String id;
     //姓名
@@ -31,5 +35,6 @@ public class Member {
     private String modifyId;
     //备份字段
     private String bak1;
-
+    //逻辑标识(删除：1；未删：0)
+    private String isDel;
 }

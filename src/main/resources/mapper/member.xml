@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.sabs.mem.mapper.MemberMapper">
+    <resultMap id="memberMap" type="cn.com.sabs.mem.entity.po.Member">
+        <result column="id" property="id" jdbcType="VARCHAR"></result>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"></result>
+        <result column="profession" property="profession" jdbcType="VARCHAR"></result>
+        <result column="weiXinNum" property="weiXinNum" jdbcType="DATE"></result>
+        <result column="inviter_name" property="inviterName" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="create_id" property="createId" jdbcType="VARCHAR"></result>
+        <result column="modify_time" property="modifyTime" jdbcType="DATE"></result>
+        <result column="modify_id" property="modifyId" jdbcType="VARCHAR"></result>
+        <result column="is_del" property="isDel" jdbcType="CHAR"></result>
+    </resultMap>
+    <select id="queryMemberByCondition" resultMap="memberMap" parameterType="java.util.Map">
+        select id,`name`,telephone,profession,weiXinNum,inviter_name,create_time,create_id,modify_time,modify_id,is_del from mem.t_mb_member
+    </select>
+
+    <insert id="addMember" parameterType="cn.com.sabs.mem.entity.po.Member">
+        insert into  mem.t_mb_member(id,`name`,telephone,profession,weiXinNum,inviter_name,create_time,create_id,is_del)
+        values(#{id},#{name},#{telephone},#{profession},#{weiXinNum},#{inviterName},now(),#{createId},#{isDel});
+    </insert>
+
+    <update id="updateMember" parameterType="cn.com.sabs.mem.entity.po.Member">
+        update mem.t_mb_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="telephone != null">telephone = #{telephone},</if>
+            <if test="profession != null">profession = #{profession},</if>
+            <if test="weiXinNum != null">weiXinNum = #{weiXinNum},</if>
+            <if test="inviterName != null">inviter_name = #{inviterName},</if>
+            <if test="modifyId != null">modify_id = #{modifyId},</if>
+            <if test="isDel != null">is_del = #{isDel},</if>
+            modify_time=now(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteMemberByCondition" parameterType="java.util.Map">
+        update mem.t_mb_member set isDel = "1" where id = #{id}
+    </update>
+</mapper>

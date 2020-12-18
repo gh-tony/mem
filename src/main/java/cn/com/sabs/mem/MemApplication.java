@@ -1,12 +1,12 @@
 package cn.com.sabs.mem;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.mybatis.spring.annotation.MapperScan;
 
-@EnableAutoConfiguration
 @ComponentScan(basePackages = {"cn.com.sabs.mem.*"})
+@MapperScan("cn.com.sabs.mem.mapper")
 @SpringBootApplication
 public class MemApplication {
 

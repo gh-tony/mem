@@ -17,6 +17,10 @@
     </resultMap>
     <select id="queryTaskByCondition" resultMap="taskMap" parameterType="java.util.Map">
         select task_id,task_name,statu,description,create_time,create_id,modify_time,modify_id,is_del from mem.t_tk_task
+        where is_del = '0'
+        <if test="taskName != null">
+            and task_name like concat(concat('%',#{taskName}),'%')
+        </if>
     </select>
 
     <insert id="addTask" parameterType="cn.com.sabs.mem.entity.po.Task">

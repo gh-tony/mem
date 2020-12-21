@@ -9,6 +9,7 @@ import cn.com.sabs.mem.mapper.MemberMapper;
 import cn.com.sabs.mem.mapper.TaskMapper;
 import cn.com.sabs.mem.service.MemberService;
 import cn.com.sabs.mem.service.TaskService;
+import cn.com.sabs.mem.utils.UuidUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void addMember(Member member) throws Exception {
+        member.setId(UuidUtils.getUUid());
+        member.setIsDel("0");
+        member.setCreateId("admin");
         memberMapper.addMember(member);
     }
 

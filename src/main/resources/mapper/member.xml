@@ -16,6 +16,10 @@
     </resultMap>
     <select id="queryMemberByCondition" resultMap="memberMap" parameterType="java.util.Map">
         select id,`name`,telephone,profession,weiXinNum,inviter_name,create_time,create_id,modify_time,modify_id,is_del from mem.t_mb_member
+        where is_del = '0'
+        <if test="memberName != null">
+            and `name` like concat(concat('%',#{memberName}),'%')
+        </if>
     </select>
 
     <insert id="addMember" parameterType="cn.com.sabs.mem.entity.po.Member">

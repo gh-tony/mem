@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>memberAdd</title>
+</head>
+<body>
+<form th:action="@{/member/addMember}" th:object="${member}"  method="post">
+    名称：<input type="text" th:id="*{name}" th:field="*{name}" th:value="*{name}"/><br/>
+    密码：<input type="password" th:id="*{pwd}" th:field="*{pwd}" th:value="*{pwd}"/><br/>
+    电话：<input type="text" th:id="*{telephone}" th:field="*{telephone}" th:value="*{telephone}"/><br/>
+    职业：<input type="text" th:id="*{profession}" th:field="*{profession}" th:value="*{profession}"/><br/>
+    微信号：<input type="text" th:id="*{weiXinNum}" th:field="*{weiXinNum}" th:value="*{weiXinNum}"/><br/>
+    邀请人姓名：<input type="text" th:id="*{inviterName}" th:field="*{inviterName}" th:value="*{inviterName}"/><br/>
+    <input type="submit" />
+</form>
+
+</body>
+</html>

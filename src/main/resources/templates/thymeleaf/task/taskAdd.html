@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskAdd</title>
+</head>
+<body>
+<div>task-add</div>
+<div>
+    <form th:action="@{/task/addTask}" th:object="${task}"  method="post">
+        任务名称：<input type="text" th:id="*{taskName}" th:field="*{taskName}" th:value="*{taskName}"/><br/>
+        任务描述：<input type="text" th:id="*{description}" th:field="*{description}" th:value="*{description}"/><br/>
+        任务状态：<input type="text" th:id="*{statu}" th:field="*{statu}" th:value="*{statu}"/><br/>
+        <input type="submit" />
+    </form>
+
+
+</div>
+</body>
+</html>

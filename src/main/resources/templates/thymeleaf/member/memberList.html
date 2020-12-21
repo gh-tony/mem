@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>memberList</title>
+</head>
+<body>
+<table>
+    <thead>
+    <form method="get" th:action="@{'/member/queryMemberByCondition'}">
+        <tr>
+            <td>查询</td>
+        </tr>
+        <tr>
+            <td>姓名：</td>
+            <td><input type="text" th:field="${memberRequestDto.name}" th:value="${memberRequestDto.name}"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" th:name="查询"></td>
+        </tr>
+    </form>
+    </thead>
+    <tbody>
+    <tr>
+        <th>id</th>
+        <th>姓名</th>
+        <th>电话</th>
+        <th>职业</th>
+        <th>微信号</th>
+        <th>邀请人姓名</th>
+        <th>创建时间</th>
+        <th>创建人</th>
+    </tr>
+    <tr th:each="memberResponseDto,index:${pageInfo.list}">
+        <td th:text="${memberResponseDto.id}"></td>
+        <td th:text="${memberResponseDto.name}"></td>
+        <td th:text="${memberResponseDto.telephone}"></td>
+        <td th:text="${memberResponseDto.profession}"></td>
+        <td th:text="${memberResponseDto.weiXinNum}"></td>
+        <td th:text="${memberResponseDto.inviterName}"></td>
+        <td th:text="${memberResponseDto.createTime}"></td>
+        <td th:text="${memberResponseDto.createId}"></td>
+        <td>审核 查看</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3">
+            当前<span th:text="${pageInfo.pageNum}"></span>页,
+            共<span th:text="${pageInfo.pages}"></span>页,
+            共<span th:text="${pageInfo.total}"></span>条记录
+        </td>
+        <td colspan="4">
+            <a href="/member/queryMemberByCondition?pageNumber=1">首页</a>
+            <a th:href="@{'/member/queryMemberByCondition?pageNumber='+${pageInfo.pageNum - 1}}">上一页</a>
+            <span th:each="page:${#numbers.sequence(1,pageInfo.pages)}">
+                <a th:href="@{'/task/queryMemberByCondition?pageNumber='+${page}}" th:text="${page}"></a>
+            </span>
+            <a th:href="@{'/member/queryMemberByCondition?pageNumber='+${pageInfo.pageNum + 1}}">下一页</a>
+            <a th:href="@{'/member/queryMemberByCondition?pageNumber='+${pageInfo.pages}}">尾页</a>
+        </td>
+    </tr>
+    </tfoot>
+
+
+</table>
+
+</body>
+</html>

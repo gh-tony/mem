@@ -13,6 +13,8 @@ public class Member {
     private String id;
     //姓名
     private String name;
+
+    private String pwd;
     //电话
     private String telephone;
     //职业

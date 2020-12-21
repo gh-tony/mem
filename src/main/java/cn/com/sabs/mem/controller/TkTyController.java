@@ -12,56 +12,66 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- * 用于前后端分离开发
+ * 用于thymeleaf开发
  */
-@RestController
+@Controller
+@RequestMapping("/task")
 @Slf4j
-public class TkController {
+public class TkTyController {
     @Autowired
     private TaskService taskService;
 
     @RequestMapping("/toTaskAdd")
     public String toTaskAdd(ModelMap map){
-        map.addAttribute("name","task add");
+        TaskDto task = new TaskDto();
+        map.addAttribute("task",task);
         log.info("toAddTask");
         return "thymeleaf/task/taskAdd";
     }
-    @RequestMapping("/queryTaskByCondition")
-    public ReturnResult<PageInfo<TaskDto>> queryByCondition(@RequestBody TaskRequestDto taskRequestDto){
+    @GetMapping("/queryTaskByCondition")
+    public ModelAndView queryByCondition(TaskDto taskDto,@RequestParam(defaultValue = "1")int pageNumber,
+                                         @RequestParam(defaultValue = "5")int pageSize){
+        ModelAndView modelAndView = new ModelAndView("thymeleaf/task/taskList");
         Map<String,Object> parameterMap = new HashMap<String,Object>();
-        parameterMap.put("taskName",taskRequestDto.getTaskName());
+        log.info("taskName>>>>>>"+taskDto.getTaskName());
+        parameterMap.put("taskName",taskDto.getTaskName());
         try {
-            PageHelper.startPage(taskRequestDto.getPageNum(),taskRequestDto.getPageSize());
+            PageHelper.startPage(pageNumber,pageSize);
             List<TaskDto> taskList = taskService.queryTaskByCondition(parameterMap);
             PageInfo<TaskDto> pageInfo = new PageInfo<TaskDto>(taskList);
             log.info(">>>>>>>>>>>taskList size=" + taskList.size());
-            return RtnResponse.makeOKRsp(pageInfo);
+
+            modelAndView.addObject("taskList",taskList);
+            modelAndView.addObject("pageInfo",pageInfo);
+            modelAndView.addObject("taskDto",taskDto);
         }catch (Exception e){
             log.error(e.getMessage());
-            return RtnResponse.makeErrRsp("查询异常，请重新查询");
+
         }
+
+        return modelAndView;
+        //"thymeleaf/task/taskList"
     }
 
 
-    @RequestMapping("/addTask")
-    public ReturnResult<List<TaskDto>> addTask(@RequestBody Task task){
+    @PostMapping("/addTask")
+    public String addTask(Task task){
         try {
+            log.info(task.getTaskName()+".................");
             taskService.addTask(task);
-            return RtnResponse.makeOKRsp();
         }catch (Exception e){
             log.error(e.getMessage());
-            return RtnResponse.makeErrRsp("新增异常，请重新添加");
         }
+        return "redirect:/task/queryTaskByCondition";
     }
 
     @RequestMapping("/updateTask")

@@ -4,6 +4,7 @@ import cn.com.sabs.mem.entity.dto.TaskDto;
 import cn.com.sabs.mem.entity.po.Task;
 import cn.com.sabs.mem.mapper.TaskMapper;
 import cn.com.sabs.mem.service.TaskService;
+import cn.com.sabs.mem.utils.UuidUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void addTask(Task task) throws Exception {
+        task.setTaskId(UuidUtils.getUUid());
+        task.setIsDel("0");
+        task.setStatu("1");
+        task.setCreateId("admin");
         taskMapper.addTask(task);
     }
 

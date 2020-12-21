@@ -24,6 +24,7 @@
         <mysql.connector.version>5.1.38</mysql.connector.version>
         <mysql.druid.version>1.0.19</mysql.druid.version>
         <pagehelper.version>1.2.5</pagehelper.version>
+        <springboot-thymeleaf.version>2.1.6.RELEASE</springboot-thymeleaf.version>
     </properties>
 
     <dependencies>
@@ -34,6 +35,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,9 +99,15 @@
             <version>${pagehelper.version}</version>
         </dependency>
 
+
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>sre/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

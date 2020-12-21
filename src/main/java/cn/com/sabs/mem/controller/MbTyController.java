@@ -1,7 +1,8 @@
 package cn.com.sabs.mem.controller;
 
-import cn.com.sabs.mem.entity.dto.MemberResponseDto;
 import cn.com.sabs.mem.entity.dto.MemberRequestDto;
+import cn.com.sabs.mem.entity.dto.MemberResponseDto;
+import cn.com.sabs.mem.entity.dto.TaskDto;
 import cn.com.sabs.mem.entity.po.Member;
 import cn.com.sabs.mem.model.ReturnResult;
 import cn.com.sabs.mem.model.RtnResponse;
@@ -10,47 +11,63 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+
+/**
+ * 用于thymeleaf开发
+ */
+@Controller
+@RequestMapping("/member")
 @Slf4j
-public class MbController {
+public class MbTyController {
     @Autowired
     private MemberService memberService;
 
-
+    @RequestMapping("/toMemberAdd")
+    public String toTaskAdd(ModelMap map){
+        Member member = new Member();
+        map.addAttribute("member",member);
+        log.info("toMemberTask");
+        return "thymeleaf/member/memberAdd";
+    }
     @RequestMapping("/queryMemberByCondition")
-    public ReturnResult<PageInfo<MemberResponseDto>> queryByCondition(@RequestBody MemberRequestDto memberRequestDto){
+    public ModelAndView queryByCondition(MemberRequestDto memberRequestDto, @RequestParam(defaultValue = "1")int pageNumber,
+                                         @RequestParam(defaultValue = "5")int pageSize){
+        ModelAndView modelAndView = new ModelAndView("thymeleaf/member/memberList");
         Map<String,Object> parameterMap = new HashMap<String,Object>();
         parameterMap.put("memberName",memberRequestDto.getName());
         try {
-            PageHelper.startPage(memberRequestDto.getPageNum(),memberRequestDto.getPageSize());
+            PageHelper.startPage(pageNumber,pageSize);
             List<MemberResponseDto> memberList = memberService.queryMemberByCondition(parameterMap);
             PageInfo<MemberResponseDto> pageInfo = new PageInfo<MemberResponseDto>(memberList);
             log.info(">>>>>>>>>>>memberList size=" + memberList.size());
-            return RtnResponse.makeOKRsp(pageInfo);
+            modelAndView.addObject("pageInfo",pageInfo);
+            modelAndView.addObject("memberRequestDto",memberRequestDto);
         }catch (Exception e){
             log.error(e.getMessage());
-            return RtnResponse.makeErrRsp("查询异常，请重新查询");
         }
+        return modelAndView;
     }
 
 
     @RequestMapping("/addMember")
-    public ReturnResult<MemberResponseDto> addMember(@RequestBody Member member){
+    public String addMember(Member member){
         try {
             memberService.addMember(member);
-            return RtnResponse.makeOKRsp();
         }catch (Exception e){
             log.error(e.getMessage());
-            return RtnResponse.makeErrRsp("新增异常，请重新添加");
         }
+        return "redirect:/member/queryMemberByCondition";
     }
 
     @RequestMapping("/updateMember")

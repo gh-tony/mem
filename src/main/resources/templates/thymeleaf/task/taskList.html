@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>taskList</title>
+</head>
+<body>
+<table>
+    <thead>
+    <form method="get" th:action="@{'/task/queryTaskByCondition'}">
+        <tr>
+            <td>查询</td>
+        </tr>
+        <tr>
+            <td>任务名称：</td>
+            <td><input type="text" th:field="${taskDto.taskName}" th:value="${taskDto.taskName}"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" th:name="查询"></td>
+        </tr>
+    </form>
+    </thead>
+    <tbody>
+    <tr>
+        <th>id</th>
+        <th>任务名称</th>
+        <th>创建时间</th>
+        <th>创建人</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="task,index:${pageInfo.list}">
+        <td th:text="${task.taskId}"></td>
+        <td th:text="${task.taskName}"></td>
+        <td th:text="${task.createTime}"></td>
+        <td th:text="${task.createId}"></td>
+        <td th:text="${task.statu}"></td>
+        <td>审核 查看</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3">
+            当前<span th:text="${pageInfo.pageNum}"></span>页,
+            共<span th:text="${pageInfo.pages}"></span>页,
+            共<span th:text="${pageInfo.total}"></span>条记录
+        </td>
+        <td colspan="4">
+            <a href="/task/queryTaskByCondition?pageNumber=1">首页</a>
+            <a th:href="@{'/task/queryTaskByCondition?pageNumber='+${pageInfo.pageNum - 1}}">上一页</a>
+            <span th:each="page:${#numbers.sequence(1,pageInfo.pages)}">
+                <a th:href="@{'/task/queryTaskByCondition?pageNumber='+${page}}" th:text="${page}"></a>
+            </span>
+            <a th:href="@{'/task/queryTaskByCondition?pageNumber='+${pageInfo.pageNum + 1}}">下一页</a>
+            <a th:href="@{'/task/queryTaskByCondition?pageNumber='+${pageInfo.pages}}">尾页</a>
+        </td>
+    </tr>
+    </tfoot>
+
+
+</table>
+
+</body>
+</html>

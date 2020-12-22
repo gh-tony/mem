@@ -6,19 +6,26 @@
 </head>
 <body>
     <form method="post" th:action="@{'/login'}" th:object="${user}">
-    <table>
-        <tr>
-            <td>用户名：</td>
-            <td><input type="text" th:id="*{name}" th:field="*{name}" th:value="*{name}"></td>
-        </tr>
-        <tr>
-            <td>密码：</td>
-            <td><input type="password" th:id="*{pwd}" th:field="*{pwd}" th:value="*{pwd}"></td>
-        </tr>
-        <tr>
-            <td><input type="submit"></td>
-        </tr>
-    </table>
+        <div>
+            <span id="basic-addon0">&nbsp;</span>
+            <span style="color: #ff0000" th:text="${error}" aria-describedby="basic-addon0"></span>
+            <br />
+        </div>
+        <div>
+            <span id="basic-addon1">用户名:</span>
+            <input th:id="*{name}" th:field="*{name}" type="text" placeholder="请输入用户名" aria-describedby="basic-addon1" />
+
+        </div>
+        <br/>
+        <div>
+            <span id="basic-addon2">密码:</span>
+            <input th:id="*{pwd}" th:field="*{pwd}" type="password" placeholder="请输入密码" aria-describedby="basic-addon2" />
+        </div>
+        <br />
+        <div>
+            <input type="submit" name="确定">
+        </div>
+
     </form>
 </body>
 </html>

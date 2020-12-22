@@ -26,6 +26,7 @@ create table mem.t_tk_task(
 create table mem.t_mb_member(
   id varchar(32) primary key,
   name varchar(100) comment '姓名',
+  pwd varchar(500) comment '密码',
   telephone varchar(20) comment '电话',
   profession varchar(100) comment '职业',
   weiXinNum varchar(500) comment '微信号',

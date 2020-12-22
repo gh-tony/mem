@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +22,7 @@ import java.util.Map;
 
 
 /**
- * 用于thymeleaf开发
+ * 用户登录
  */
 @Controller
 @RequestMapping("/")
@@ -36,14 +37,25 @@ public class LoginController {
     }
 
     @RequestMapping("/login")
-    public String login(User user){
-        if((user.getName()!=null && user.getName().trim().equals("admin"))
-            && (user.getPwd()!=null && user.getPwd().trim().equals("admin"))){
-            ModelAndView modelAndView = new ModelAndView("thymeleaf/index");
-            return "thymeleaf/index";
-        }else{
-            return "login";
+    public ModelAndView login(ModelAndView modelAndView, User user, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            modelAndView.addObject("error",bindingResult.getFieldError().getDefaultMessage());
+            modelAndView.setViewName("login");
+            return modelAndView;
         }
 
+        if(user.getName()!=null && !"admin".equals(user.getName())){
+            modelAndView.addObject("error","无此用户！");
+            modelAndView.setViewName("login");
+            return modelAndView;
+        }
+        if(user.getPwd()!=null && !"admin".equals(user.getPwd())){
+            modelAndView.addObject("error","密码错误！");
+            modelAndView.setViewName("login");
+            return modelAndView;
+        }
+        modelAndView.addObject("name",user.getName());
+        modelAndView.setViewName("thymeleaf/index");
+        return modelAndView;
     }
 }

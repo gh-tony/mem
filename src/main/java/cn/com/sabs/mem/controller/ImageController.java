@@ -39,7 +39,7 @@ public class ImageController {
         }
         String fileName = file.getOriginalFilename();  // 文件名
         String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-        String filePath = "D://temp-rainy//"; // 上传后的路径
+        String filePath = "D://temp-mem//"; // 上传后的路径
         fileName = UuidUtils.getUUid() + suffixName; // 新文件名
         File dest = new File(filePath + fileName);
         if (!dest.getParentFile().exists()) {
@@ -50,7 +50,7 @@ public class ImageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String filename = "/temp-rainy/" + fileName;
+        String filename = "/temp-mem/" + fileName;
         map.addAttribute("filename", filename);
         return "redirect:/img/toImgUpload";
 

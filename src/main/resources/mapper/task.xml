@@ -21,6 +21,7 @@
         <if test="taskName != null">
             and task_name like concat(concat('%',#{taskName}),'%')
         </if>
+        order by create_time desc
     </select>
 
     <insert id="addTask" parameterType="cn.com.sabs.mem.entity.po.Task">

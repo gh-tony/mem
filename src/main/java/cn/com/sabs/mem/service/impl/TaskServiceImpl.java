@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
     public void addTask(Task task) throws Exception {
         task.setTaskId(UuidUtils.getUUid());
         task.setIsDel("0");
-        task.setStatu("1");
+//        task.setStatu("1");
         task.setCreateId("admin");
         taskMapper.addTask(task);
     }

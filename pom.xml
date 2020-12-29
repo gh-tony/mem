@@ -105,7 +105,7 @@
     <build>
         <resources>
             <resource>
-                <directory>sre/main/resources</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <plugins>

@@ -3,9 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap-table.css}">
 </head>
+<style>
+    body{
+        margin:0;
+        padding:0;
+        font-family: Lato,Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        line-height: 1.72222;
+        color: #34495e;
+        background-color: #fff;
+    }
+    .wrap {
+        min-width: 100%;
+        position: absolute;
+        background: #eff3f6 bottom;
+        min-height: 100%;
+        overflow: hidden;
+    }
+    .left{
+        margin-left:0px;
+        position: absolute;
+        box-sizing: border-box;
+        width: 200px;
+        height: 100%;
+        background: #4d5e70 bottom;
+    }
+    .logoDiv{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        height: 70px;
+        background-color: #354457;
+        font-size: 17px;
+        color: #fff;
+        vertical-align: bottom;
+    }
+    .logoTitle{
+        margin-left:15px;
+        line-height: 1.7;
+    }
+    .menu-title {
+        margin-left:15px;
+        color: #828e9a;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .menu-item {
+        padding-left:15px;
+        line-height: 40px;
+        height: 40px;
+        color: #aab1b7;
+        cursor: pointer;
+    }
+    .menu-item-active {
+        background-color: #3d4e60;
+        border-right: 4px solid #647f9d;
+        color: #fff;
+    }
+    .right{
+        box-sizing: border-box;
+        float: left;
+        box-sizing: border-box;
+        padding-left: 200px;
+        overflow-y: overlay;
+        overflow-x: hidden;
+        clear: both;
+        color: #717592;
+        min-width: 100%;
+        min-height: 500px;
+    }
+</style>
+
 <body>
-<div><a href="/mem/task/toTaskAdd">任务新增</a></div>
-<div><a href="/mem/member/toMemberAdd">会员新增</a></div>
+<div class="wrap">
+    <div id="left" class="left">
+        <div id="logoDiv" class="logoDiv">
+            <p id="logoTitle" class="logoTitle">
+                <img id="logo" alt="" th:src="@{/img/2021.png}"
+                     style="height: 35px; padding-right: 5px;vertical-align: middle;">
+                <span style="font-size:18px;">服务中心系统</span><br/>
+            </p>
+        </div>
+        <div class="menu-title">任务中心</div>
+        <div class="menu-item" href="#one" data-toggle="tab">
+            －任务管理
+        </div>
+        <div class="menu-item" href="#two" data-toggle="tab">
+            －会员管理
+        </div>
+        <div class="menu-title">系统管理</div>
+        <div class="menu-item" href="#three" data-toggle="tab">
+            －用户管理
+        </div>
+        <div class="menu-item" href="#four" data-toggle="tab">
+            －权限管理
+        </div>
+
+        <!--<div class="menu-item" href="#taskTable" data-toggle="tab">任务管理</div>-->
+        <!--<div class="menu-item" href="#vipTable" data-toggle="tab">会员管理</div>-->
+    </div>
+    <div id="right" class="tab-content right">
+        <div id="one" class="tab-pane active">
+            <div th:include="../templates/thymeleaf/taskNew/list :: taskList" ></div>
+        </div>
+        <div id="two" class="tab-pane">
+            <div th:include="../templates/thymeleaf/memberNew/list :: memberList" ></div>
+        </div>
+        <div id="three" class="tab-pane">
+            用户管理
+        </div>
+        <div id="four" class="tab-pane">
+            权限管理
+        </div>
+
+        <!--<div id="taskTable" class="tab-pane active">-->
+            <!--<div class="table taskTable"></div>-->
+        <!--</div>-->
+        <!--<div id="vipTable" class="tab-pane">-->
+            <!--<div class="table vipTable"></div>-->
+        <!--</div>-->
+    </div>
+</div>
+
+<!--<div><a href="/mem/task/toTaskAdd">任务新增</a></div>-->
+<!--<div><a href="/mem/member/toMemberAdd">会员新增</a></div>-->
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+<script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap-table.js}"></script>
+<script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap-table-zh-CN.js}"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $(".menu-item").click(function() {
+            $(".menu-item").removeClass("menu-item-active");
+            $(this).addClass("menu-item-active");
+        });
+        function changeFrameHeight(){
+            var ifm=document.getElementById("fourIfm");
+            ifm.height = document.documentElement.clientHeight;
+        }
+        window.onresize=function(){
+            changeFrameHeight();
+        }
+
+
+
+    })
+</script>
 </body>
 </html>

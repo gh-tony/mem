@@ -3,29 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>login</title>
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap-theme.min.css}">
 </head>
+<style>
+    .row-center{
+        text-align:center;
+        margin-top: 120px;
+    }
+    .col-center {
+        float:none;
+        text-align:left;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+</style>
 <body>
-    <form method="post" th:action="@{'/login'}" th:object="${user}">
-        <div>
-            <span id="basic-addon0">&nbsp;</span>
-            <span style="color: #ff0000" th:text="${error}" aria-describedby="basic-addon0"></span>
-            <br />
-        </div>
-        <div>
-            <span id="basic-addon1">用户名:</span>
-            <input th:id="*{name}" th:field="*{name}" type="text" placeholder="请输入用户名" aria-describedby="basic-addon1" />
+<div class="container">
+    <div class="row  row-center">
+        <div class="col-center">
+             <form id="loginForm" method="post" th:action="@{'/login'}" th:object="${user}">
+                <div class="form-group">
+                    <label id="basic-addon0">&nbsp;</label>
+                    <span style="color: #ff0000" th:text="${error}" aria-describedby="basic-addon0"></span>
+                    <br />
+                </div>
+                <div class="form-group">
+                    <!--<label id="basic-addon1">用户名:</label>-->
+                    <input class="form-control" th:id="*{name}" th:field="*{name}" type="text" placeholder="请输入用户名" aria-describedby="basic-addon1" />
 
+                </div>
+                <br/>
+                <div class="form-group">
+                    <!--<label id="basic-addon2">密码:</label>-->
+                    <input class="form-control" th:id="*{pwd}" th:field="*{pwd}" type="password" placeholder="请输入密码" aria-describedby="basic-addon2" />
+                </div>
+                 <div class="submit">
+                     <button class="btn btn-md btn-primary btn-block" type="submit" >登录</button>
+                 </div>
+            </form>
         </div>
-        <br/>
-        <div>
-            <span id="basic-addon2">密码:</span>
-            <input th:id="*{pwd}" th:field="*{pwd}" type="password" placeholder="请输入密码" aria-describedby="basic-addon2" />
-        </div>
-        <br />
-        <div>
-            <input type="submit" name="确定">
-        </div>
+    </div>
+</div>
 
-    </form>
 </body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+
+
+<script>
+    var login = function(){
+        $("#loginForm").submit();
+    }
+</script>
 </html>

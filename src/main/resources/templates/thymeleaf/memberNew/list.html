@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="memberList" >
+    <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <input placeholder="会员名称" class="form-control layer-date" id="taskName" name="taskName">
+                        </div>
+                        <div class="col-sm-4" style="text-align: left;">
+                            <button type="button" style="margin-left: 50px" id="btn_query"
+                                    class="btn" onclick="show();">查询</button>
+                            <button id="btn_add" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="memberTable"></div>
+    </div>
+
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+    <script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap-table.js}"></script>
+    <script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap-table-zh-CN.js}"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#memberTable").bootstrapTable({
+                url:"/mem/task/query",  //请求地址
+                striped : true, //是否显示行间隔色
+                pageNumber : 1, //初始化加载第一页
+                pagination : true,//是否分页
+                sidePagination : 'client',//server:服务器端分页|client：前端分页
+                pageSize : 5,//单页记录数
+                pageList : [ 5, 10],//可选择单页记录数
+                showRefresh : false,//刷新按钮
+                columns : [ {
+                    title : '创建人',
+                    field : 'createBy',
+                    sortable : true
+                }, {
+                    title : '任务名称',
+                    field : 'taskName',
+                    sortable : true
+                }]
+            })
+
+        })
+    </script>
+
+</div>
+
+</html>

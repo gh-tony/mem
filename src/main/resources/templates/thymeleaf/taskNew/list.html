@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="taskList" >
+        <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">查询条件</div>
+                <div class="panel-body">
+                    <form id="formSearch" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <input placeholder="任务名称" class="form-control layer-date" id="taskName" name="taskName">
+                            </div>
+                            <div class="col-sm-4" style="text-align: left;">
+                                <button type="button" style="margin-left: 50px" id="btn_query"
+                                        class="btn" onclick="reload();">查询</button>
+                                <button id="btn_add" type="button" class="btn btn-default" data-target="#taskModal" >
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                                </button>
+                                <!--<a data-toggle="modal" class="btn btn-primary" data-target="#taskModal">新增</a>-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table id="taskTable" class="table"></table>
+        </div>
+
+        <div class="modal" id="taskModal">
+            <div th:include="../templates/thymeleaf/taskNew/add :: taskAdd" ></div>
+        </div>
+
+        <div id="content"></div>
+
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+        <script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap-table.js}"></script>
+        <script rel="script" th:src="@{/bootstrap-3.3.7/js/bootstrap-table-zh-CN.js}"></script>
+
+        <script rel="script" th:src="@{/layui/layui.js}"></script>
+
+        <script>
+            var layer;
+            var openIndex;
+            layui.use(['element','layer'], function() {
+                layer = layui.layer
+            });
+
+
+            $(document).ready(function () {
+                initTaskTable();
+
+                $("#btn_add").click(function(){
+                    var _this = $(this)
+                    _this.attr('disabled',true)
+                    openIndex = layer.open({
+                        resize : false,
+                        title : '新增',
+                        type : 2,
+//                        shadeClose: true,
+//                        shade: false,
+                        area: ['893px', '600px'],
+                        content : '/mem/task/add',
+                        success: function (layero, index) {
+                            _this.removeAttr('disabled')
+                        }
+                    })
+                })
+            })
+
+            function reload(){
+                $('#taskTable').bootstrapTable('destroy');
+                initTaskTable({
+                    taskName : $("#taskName").val()
+                })
+            }
+
+            function initTaskTable(queryParams){
+                $("#taskTable").bootstrapTable({
+                    url:"/mem/task/query",  //请求地址
+                    striped : true, //是否显示行间隔色
+                    pageNumber : 1, //初始化加载第一页
+                    pagination : true,//是否分页
+                    sidePagination : 'client',//server:服务器端分页|client：前端分页
+                    pageSize : 10,//单页记录数
+                    pageList : [ 10, 15 , 20],//可选择单页记录数
+                    showRefresh : false,//刷新按钮
+                    queryParams:queryParams,
+                    columns : [ {
+                        title : '任务ID',
+                        field : 'taskId',
+                        sortable : true
+                    }, {
+                        title : '任务名称',
+                        field : 'taskName',
+                        sortable : true
+                    }, {
+                        title : '任务描述',
+                        field : 'description',
+                        sortable : true
+                    }, {
+                        title : '任务状态',
+                        field : 'statu',
+                        sortable : true,
+                        formatter : function(value){
+                            var _html = (value == 1 ? '有效' : '无效')
+                            return _html;
+                        }
+                    }]
+                })
+            }
+        </script>
+    </div>
+</html>
+
+

@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class TkTyController {
     @RequestMapping("/toTaskAdd")
     public String toTaskAdd(ModelMap map){
         TaskDto task = new TaskDto();
-        map.addAttribute("task",task);
+        map.addAttribute("task", task);
         log.info("toAddTask");
         return "thymeleaf/task/taskAdd";
     }
@@ -42,8 +43,8 @@ public class TkTyController {
                                          @RequestParam(defaultValue = "5")int pageSize){
         ModelAndView modelAndView = new ModelAndView("thymeleaf/task/taskList");
         Map<String,Object> parameterMap = new HashMap<String,Object>();
-        log.info("taskName>>>>>>"+taskDto.getTaskName());
-        parameterMap.put("taskName",taskDto.getTaskName());
+        log.info("taskName>>>>>>" + taskDto.getTaskName());
+        parameterMap.put("taskName", taskDto.getTaskName());
         try {
             PageHelper.startPage(pageNumber,pageSize);
             List<TaskDto> taskList = taskService.queryTaskByCondition(parameterMap);
@@ -62,6 +63,29 @@ public class TkTyController {
         //"thymeleaf/task/taskList"
     }
 
+    @ResponseBody
+    @GetMapping("/query")
+    public List<TaskDto> query(TaskDto taskDto,@RequestParam(defaultValue = "1")int pageNumber,
+                                         @RequestParam(defaultValue = "10")int pageSize){
+        Map<String,Object> parameterMap = new HashMap<String,Object>();
+        parameterMap.put("taskName", taskDto.getTaskName());
+        try {
+            List<TaskDto> taskList = taskService.queryTaskByCondition(parameterMap);
+            return taskList;
+        }catch (Exception e){
+            log.error(e.getMessage());
+
+        }
+        return null;
+    }
+
+    @RequestMapping("/add")
+    public String add(ModelMap map){
+        TaskDto task = new TaskDto();
+        map.addAttribute("task", task);
+        return "thymeleaf/taskNew/add";
+    }
+
 
     @PostMapping("/addTask")
     public String addTask(Task task){
@@ -72,6 +96,19 @@ public class TkTyController {
             log.error(e.getMessage());
         }
         return "redirect:/task/queryTaskByCondition";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/save")
+    public ReturnResult<Task> save(Task task){
+        try {
+            taskService.addTask(task);
+            return RtnResponse.makeOKRsp(task);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+        return RtnResponse.makeErrRsp("更新异常，请重新操作");
     }
 
     @RequestMapping("/updateTask")

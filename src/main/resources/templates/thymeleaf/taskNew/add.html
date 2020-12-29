@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="taskAdd">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap-3.3.7/css/bootstrap-table.css}">
+
+    <style>
+        .form-horizontal{
+            width: 90%;
+            padding: 5px;
+        }
+    </style>
+
+    <form th:id="formTask" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">任务名称</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="taskName" required name="taskName" type="text"  placeholder="该输入任务名称...">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">任务描述</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="description" required name="description" type="text"  placeholder="该输入任务描述...">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">任务状态</label>
+            <div class="col-sm-10">
+                <!--<input class="form-control" id="statu" required name="statu" type="text"  placeholder="该输入任务状态...">-->
+                <select name="statu" id="statu" class="form-control" >
+                    <option value="1">有效</option>
+                    <option value="0">无效</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <button type="button" class="btn btn-primary addBtn">保存</button>
+                <button type="button" class="btn btn-default addBtn">关闭</button>
+            </div>
+        </div>
+    </form>
+
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(".addBtn").click(function(){
+            var _this = $(this);
+            _this.attr('disabled',true)
+            if (_this.hasClass("btn-primary")) {
+                if (!$("#taskName").val()) {
+                    parent.layer.msg('任务名称必填', {
+                        time: 1000,
+                        icon: 5
+                    })
+                    _this.removeAttr('disabled')
+                    return;
+                }
+                if (!$("#description").val()) {
+                    parent.layer.msg('任务描述必填', {
+                        time: 1000,
+                        icon: 5
+                    })
+                    _this.removeAttr('disabled')
+                    return;
+                }
+                if (!$("#statu").val()) {
+                    parent.layer.msg('状态必填', {
+                        time: 1000,
+                        icon: 5
+                    })
+                    _this.removeAttr('disabled')
+                    return;
+                }
+                $.ajax({
+                    type:"POST",
+                    dataType:"json",
+                    url:"/mem/task/save",
+                    data: $('#formTask').serialize(),
+                    success: function (data) {
+                        _this.removeAttr('disabled')
+                        parent.layer.msg(data.msg, {
+                            time: 1000,
+                            icon: 1
+                        },function(){
+                            parent.layer.close(parent.openIndex);
+                            parent.reload();
+                        })
+                    },
+                    error : function(result) {
+                        _this.removeAttr('disabled')
+                        layer.msg(result.msg, {
+                            time: 2000,
+                            icon: 2
+                        })
+                    }
+                });
+            }else{
+                parent.layer.close(parent.openIndex);
+            }
+        });
+
+    </script>
+
+</div>
+</html>

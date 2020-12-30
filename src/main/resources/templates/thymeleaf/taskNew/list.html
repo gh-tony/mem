@@ -67,6 +67,25 @@
                         }
                     })
                 })
+
+                $('body').on('click','.task-event',function(){
+                    var _this = $(this);
+                    console.log(_this,_this.attr("data-id"));
+                    $.ajax({
+                        url : '/mem/task/upd',
+                        type:'POST',
+                        data : {
+                            taskId : _this.attr("data-id"),
+                            statu : _this.attr("data-statu")
+                        },
+                        success : function(){
+                            reload();
+                        },
+                        fail : function(){
+
+                        }
+                    })
+                })
             })
 
             function reload(){
@@ -107,10 +126,61 @@
                             var _html = (value == 1 ? '有效' : '无效')
                             return _html;
                         }
+                    }, {
+                        title : '创建时间',
+                        field : 'createTime',
+                        sortable : true,
+                        formatter : function(value){
+                            return changeDateFormat(value);
+//                            var _html = (value == 1 ? '有效' : '无效')
+//                            return _html;
+                        }
+                    },{
+                        title : '操作',
+                        field : 'id',
+                        align: 'center',
+                        valign: 'middle',
+                        formatter: actionFormatter
                     }]
                 })
             }
+
+            function actionFormatter(value, row, index) {
+                var _html = "";
+                if(row.statu == 1){
+                    _html = '<button id="edit" class="btn btn-danger task-event" data-id="'+row.taskId+'" data-statu="0" >标记无效</button>'
+                }else if(row.statu == 0){
+                    _html = '<button id="edit" class="btn btn-info task-event" data-id="'+row.taskId+'" data-statu="1">标记有效</button>'
+                }
+                return _html;
+//                var id = value;
+//                var result = "";
+//                result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+//                result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+//                result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+//                return result;
+            }
+
+            //创建函数
+            function changeDateFormat(cellval) {
+                if (cellval) {
+                    var date = new Date(cellval);
+                    var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                    var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                    var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                    var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                    return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
+                }
+                return "";
+            }
+
+
+
         </script>
+
+
+
     </div>
 </html>
 

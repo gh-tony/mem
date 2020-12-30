@@ -111,6 +111,21 @@ public class TkTyController {
         return RtnResponse.makeErrRsp("更新异常，请重新操作");
     }
 
+
+    @ResponseBody
+    @RequestMapping("/upd")
+    public ReturnResult<Task> upd(HttpServletRequest request){
+        try {
+            Task task = taskService.queryTaskById(request.getParameter("taskId"));
+            task.setStatu(request.getParameter("statu"));
+            taskService.updateTask(task);
+            return RtnResponse.makeOKRsp(task);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+        return RtnResponse.makeErrRsp("更新异常，请重新操作");
+    }
+
     @RequestMapping("/updateTask")
     public ReturnResult<List<TaskDto>> updateTask(@RequestBody Task task){
         try {

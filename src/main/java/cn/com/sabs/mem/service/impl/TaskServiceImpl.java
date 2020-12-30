@@ -9,10 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @Service
 public class TaskServiceImpl implements TaskService {
     @Autowired
@@ -51,5 +49,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
 
-
+    @Override
+    public Task queryTaskById(String taskId) throws Exception {
+        Task task = taskMapper.queryTaskById(taskId);
+        return task;
+    }
 }

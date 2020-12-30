@@ -6,13 +6,13 @@
         <result column="task_name" property="taskName" jdbcType="VARCHAR"></result>
         <result column="statu" property="statu" jdbcType="VARCHAR"></result>
         <result column="description" property="description" jdbcType="VARCHAR"></result>
-        <result column="create_time" property="createTime" jdbcType="DATE"></result>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"></result>
         <result column="create_id" property="createId" jdbcType="VARCHAR"></result>
-        <result column="modify_time" property="modifyTime" jdbcType="DATE"></result>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"></result>
         <result column="modify_id" property="modifyId" jdbcType="VARCHAR"></result>
         <result column="is_del" property="isDel" jdbcType="CHAR"></result>
         <!--<result column="audit_no" property="auditNo" jdbcType="VARCHAR"></result>
-        <result column="audit_time" property="auditTime" jdbcType="DATE"></result>
+        <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP"></result>
         <result column="audit_opinion" property="auditOpinion" jdbcType="VARCHAR"></result>-->
     </resultMap>
     <select id="queryTaskByCondition" resultMap="taskMap" parameterType="java.util.Map">
@@ -24,8 +24,13 @@
         order by create_time desc
     </select>
 
+    <select id="queryTaskById" resultMap="taskMap" parameterType="java.lang.String">
+         select task_id,task_name,statu,description,create_time,create_id,modify_time,modify_id,is_del from mem.t_tk_task
+         where task_id = #{taskId}
+    </select>
+
     <insert id="addTask" parameterType="cn.com.sabs.mem.entity.po.Task">
-        insert into  mem.t_tk_task(task_id,task_name,statu,description,create_time,create_id,is_del)
+        insert into mem.t_tk_task(task_id,task_name,statu,description,create_time,create_id,is_del)
         values(#{taskId},#{taskName},#{statu},#{description},now(),#{createId},#{isDel});
     </insert>
 
